@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام أوقات الصلاة المتطور</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #FFD700;
+            --secondary-gold: #FFA500;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --text-primary: #ffffff;
+            --text-secondary: #b8b8b8;
+            --accent-purple: #7B68EE;
+            --accent-blue: #00CED1;
+            --success-green: #00FF88;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* خلفية ديناميكية متطورة */
+        .dynamic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, #0a0a0a 100%);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            opacity: 0;
+            animation: floatUp 15s infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 0.4;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(1.5);
+            }
+        }
+
+        /* الحاوية الرئيسية */
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 30px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* الهيدر المتطور */
+        .header {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary-gold), transparent);
+        }
+
+        /* منطقة التاريخ */
+        .date-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .date-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 12px 20px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .date-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            animation: rotate 10s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .date-card:hover::before {
+            opacity: 1;
+        }
+
+        .date-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .date-label {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .date-value {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary-gold);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        /* العنوان الرئيسي */
+        .title-section {
+            text-align: center;
+        }
+
+        .main-title {
+            font-size: 4em;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold), var(--primary-gold));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 40px rgba(255, 215, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.2em;
+            font-weight: 300;
+        }
+
+        /* معلومات النظام */
+        .system-info {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .info-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .info-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+        }
+
+        /* الساعة الرقمية المتطورة */
+        .clock-container {
+            text-align: center;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .digital-clock {
+            font-size: 5.5em;
+            font-weight: 300;
+            letter-spacing: 8px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-blue));
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientMove 5s ease infinite;
+            position: relative;
+            display: inline-block;
+        }
+
+        .digital-clock::after {
+            content: attr(data-time);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.5;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .clock-date {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: var(--text-secondary);
+        }
+
+        /* شبكة أوقات الصلاة المتطورة */
+        .prayer-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .prayer-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .prayer-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(255, 215, 0, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .prayer-card:hover::before {
+            opacity: 1;
+        }
+
+        .prayer-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(255, 215, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.1);
+        }
+
+        .prayer-card.active {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.1));
+            border-color: var(--primary-gold);
+            animation: pulseGlow 2s ease infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(255, 215, 0, 0.5),
+                           inset 0 0 20px rgba(255, 215, 0, 0.1);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 215, 0, 0.8),
+                           inset 0 0 30px rgba(255, 215, 0, 0.2);
+            }
+        }
+
+        .prayer-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--primary-gold), var(--secondary-gold));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .prayer-name {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .prayer-time {
+            font-size: 2.2em;
+            font-weight: 300;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .time-remaining {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            padding: 5px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* الصلاة التالية */
+        .next-prayer {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.05));
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .next-prayer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary-gold), transparent, var(--primary-gold));
+            border-radius: 20px;
+            opacity: 0.5;
+            z-index: -1;
+            animation: borderRotate 3s linear infinite;
+        }
+
+        @keyframes borderRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .next-prayer-title {
+            font-size: 1.2em;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .next-prayer-name {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 10px;
+        }
+
+        .next-prayer-countdown {
+            font-size: 3em;
+            font-weight: 300;
+            letter-spacing: 5px;
+            color: var(--text-primary);
+        }
+
+        /* نافذة الأذان المتطورة */
+        .adhan-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.95), rgba(0, 0, 0, 0.98));
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            backdrop-filter: blur(20px);
+        }
+
+        .adhan-content {
+            text-align: center;
+            animation: adhanEntry 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes adhanEntry {
+            0% {
+                opacity: 0;
+                transform: scale(0.5) rotate(-10deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0);
+            }
+        }
+
+        .adhan-circle {
+            width: 300px;
+            height: 300px;
+            border: 3px solid var(--primary-gold);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            position: relative;
+            animation: adhanPulse 2s ease infinite;
+        }
+
+        @keyframes adhanPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 50px rgba(255, 215, 0, 0.5);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 80px rgba(255, 215, 0, 0.8);
+            }
+        }
+
+        .adhan-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8em;
+            color: var(--primary-gold);
+        }
+
+        .adhan-text {
+            font-size: 4em;
+            font-weight: 700;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+            text-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+        }
+
+        .prayer-name-large {
+            font-size: 2.5em;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+        }
+
+        .adhan-progress {
+            width: 400px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .adhan-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* رسائل النظام المتطورة */
+        .system-message {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.9), rgba(0, 206, 209, 0.9));
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            display: none;
+            animation: messageSlide 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+            font-weight: 500;
+        }
+
+        @keyframes messageSlide {
+            0% {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* تحسينات للشاشات الكبيرة */
+        @media (min-width: 1920px) {
+            .main-title { font-size: 4.5em; }
+            .digital-clock { font-size: 6em; }
+            .prayer-card { padding: 35px 20px; }
+            .prayer-name { font-size: 1.5em; }
+            .prayer-time { font-size: 2.2em; }
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 1400px) {
+            .prayer-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            
+            .prayer-card {
+                padding: 20px 15px;
+            }
+            
+            .prayer-time {
+                font-size: 1.8em;
+            }
+
+            .main-title {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .header {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 15px;
+                padding: 15px 0;
+            }
+            
+            .date-section, .system-info {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+
+            .date-card {
+                min-width: 200px;
+            }
+            
+            .prayer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                margin: 25px 0;
+            }
+            
+            .main-title { 
+                font-size: 2.8em;
+                margin-bottom: 5px;
+            }
+            
+            .digital-clock { 
+                font-size: 3.2em;
+                letter-spacing: 4px;
+            }
+            
+            .clock-date {
+                font-size: 1.1em;
+            }
+
+            .next-prayer {
+                max-width: 500px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 15px;
+            }
+            
+            .prayer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            
+            .prayer-card {
+                padding: 15px 10px;
+            }
+            
+            .prayer-name {
+                font-size: 1.1em;
+            }
+            
+            .prayer-time {
+                font-size: 1.6em;
+            }
+            
+            .time-remaining {
+                font-size: 0.8em;
+            }
+            
+            .next-prayer {
+                padding: 20px;
+                margin: 25px auto;
+            }
+            
+            .next-prayer-countdown {
+                font-size: 2.2em;
+            }
+            
+            .digital-clock {
+                font-size: 2.5em;
+            }
+            
+            .main-title {
+                font-size: 2em;
+            }
+
+            .date-card {
+                min-width: 160px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .main-container {
+                padding: 10px;
+            }
+
+            .prayer-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .date-card {
+                padding: 8px 12px;
+                min-width: 140px;
+            }
+            
+            .date-value {
+                font-size: 0.9em;
+            }
+            
+            .digital-clock {
+                font-size: 2em;
+                letter-spacing: 2px;
+            }
+            
+            .clock-date {
+                font-size: 0.9em;
+            }
+
+            .next-prayer {
+                padding: 15px;
+                margin: 20px auto;
+            }
+
+            .next-prayer-name {
+                font-size: 2em;
+            }
+
+            .next-prayer-countdown {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dynamic-bg"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="main-container">
+        <!-- الهيدر المتطور -->
+        <header class="header">
+            <div class="date-section">
+                <div class="date-card">
+                    <div class="date-label">التاريخ الميلادي</div>
+                    <div class="date-value" id="gregorian-date">2025-05-24</div>
+                </div>
+                <div class="date-card">
+                    <div class="date-label">التاريخ الهجري</div>
+                    <div class="date-value" id="hijri-date">1446-11-26</div>
+                </div>
+            </div>
+            
+            <div class="title-section">
+                <h1 class="main-title">أوقات الصلاة</h1>
+                <p class="subtitle">البصرة - خور الزبير</p>
+            </div>
+            
+            <div class="system-info">
+                <div class="info-item">
+                    <div class="info-icon">📍</div>
+                    <span id="location">البصرة - خور الزبير</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- الساعة الرقمية -->
+        <div class="clock-container">
+            <div class="digital-clock" id="digital-clock" data-time="00:00:00">00:00:00</div>
+            <div class="clock-date" id="clock-date">السبت، 24 مايو 2025</div>
+        </div>
+
+        <!-- شبكة أوقات الصلاة -->
+        <div class="prayer-grid" id="prayer-grid">
+            <!-- سيتم ملؤها بواسطة JavaScript -->
+        </div>
+
+        <!-- الصلاة التالية -->
+        <div class="next-prayer" id="next-prayer">
+            <div class="next-prayer-title">الصلاة التالية</div>
+            <div class="next-prayer-name" id="next-prayer-name">الفجر</div>
+            <div class="next-prayer-countdown" id="next-prayer-countdown">00:00:00</div>
+        </div>
+    </div>
+
+    <!-- نافذة الأذان -->
+    <div class="adhan-overlay" id="adhan-overlay">
+        <div class="adhan-content">
+            <div class="adhan-circle">
+                <div class="adhan-icon">🕌</div>
+            </div>
+            <div class="adhan-text">حان وقت الأذان</div>
+            <div class="prayer-name-large" id="current-prayer-name"></div>
+            <div class="adhan-progress">
+                <div class="adhan-progress-bar" id="adhan-progress"></div>
+            </div>
+            <audio id="adhan-audio" preload="auto"></audio>
+        </div>
+    </div>
+
+    <!-- رسائل النظام -->
+    <div class="system-message" id="system-message"></div>
+
+    <script>
+        // البيانات المضمنة من ملف Excel
+        const prayerData = [
+            {"يوم":"السبت","ميلادي":"24/05/2025","هجري":"26/11/1446 (ذُو ٱلْقَعْدَة)","الفجر":"03:08 ص","الشروق":"04:50 ص","الظهر":"11:53 ص","العصر":"03:30 م","المغرب":"06:45 م","العشاء":"08:12 م"},
+            {"يوم":"الأحد","ميلادي":"25/05/2025","هجري":"27/11/1446 (ذُو ٱلْقَعْدَة)","الفجر":"03:08 ص","الشروق":"04:50 ص","الظهر":"11:53 ص","العصر":"03:30 م","المغرب":"06:46 م","العشاء":"08:13 م"},
+            {"يوم":"الإثنين","ميلادي":"26/05/2025","هجري":"28/11/1446 (ذُو ٱلْقَعْدَة)","الفجر":"03:07 ص","الشروق":"04:50 ص","الظهر":"11:53 ص","العصر":"03:30 م","المغرب":"06:47 م","العشاء":"08:14 م"},
+            {"يوم":"الثلاثاء","ميلادي":"27/05/2025","هجري":"29/11/1446 (ذُو ٱلْقَعْدَة)","الفجر":"03:06 ص","الشروق":"04:49 ص","الظهر":"11:53 ص","العصر":"03:30 م","المغرب":"06:47 م","العشاء":"08:14 م"},
+            {"يوم":"الأربعاء","ميلادي":"28/05/2025","هجري":"01/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:06 ص","الشروق":"04:49 ص","الظهر":"11:53 ص","العصر":"03:30 م","المغرب":"06:48 م","العشاء":"08:15 م"},
+            {"يوم":"الخميس","ميلادي":"29/05/2025","هجري":"02/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:05 ص","الشروق":"04:49 ص","الظهر":"11:53 ص","العصر":"03:30 م","المغرب":"06:48 م","العشاء":"08:16 م"},
+            {"يوم":"الجمعة","ميلادي":"30/05/2025","هجري":"03/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:05 ص","الشروق":"04:49 ص","الظهر":"11:53 ص","العصر":"03:30 م","المغرب":"06:49 م","العشاء":"08:17 م"},
+            {"يوم":"السبت","ميلادي":"31/05/2025","هجري":"04/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:04 ص","الشروق":"04:48 ص","الظهر":"11:53 ص","العصر":"03:30 م","المغرب":"06:50 م","العشاء":"08:18 م"},
+            {"يوم":"الأحد","ميلادي":"01/06/2025","هجري":"05/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:04 ص","الشروق":"04:48 ص","الظهر":"11:54 ص","العصر":"03:30 م","المغرب":"06:50 م","العشاء":"08:19 م"},
+            {"يوم":"الإثنين","ميلادي":"02/06/2025","هجري":"06/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:03 ص","الشروق":"04:48 ص","الظهر":"11:54 ص","العصر":"03:30 م","المغرب":"06:51 م","العشاء":"08:19 م"},
+            {"يوم":"الثلاثاء","ميلادي":"03/06/2025","هجري":"07/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:03 ص","الشروق":"04:48 ص","الظهر":"11:54 ص","العصر":"03:30 م","المغرب":"06:51 م","العشاء":"08:20 م"},
+            {"يوم":"الأربعاء","ميلادي":"04/06/2025","هجري":"08/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:02 ص","الشروق":"04:48 ص","الظهر":"11:54 ص","العصر":"03:31 م","المغرب":"06:52 م","العشاء":"08:21 م"},
+            {"يوم":"الخميس","ميلادي":"05/06/2025","هجري":"09/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:02 ص","الشروق":"04:48 ص","الظهر":"11:54 ص","العصر":"03:31 م","المغرب":"06:52 م","العشاء":"08:22 م"},
+            {"يوم":"الجمعة","ميلادي":"06/06/2025","هجري":"10/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:02 ص","الشروق":"04:48 ص","الظهر":"11:54 ص","العصر":"03:31 م","المغرب":"06:53 م","العشاء":"08:22 م"},
+            {"يوم":"السبت","ميلادي":"07/06/2025","هجري":"11/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:01 ص","الشروق":"04:48 ص","الظهر":"11:55 ص","العصر":"03:31 م","المغرب":"06:53 م","العشاء":"08:23 م"},
+            {"يوم":"الأحد","ميلادي":"08/06/2025","هجري":"12/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:01 ص","الشروق":"04:48 ص","الظهر":"11:55 ص","العصر":"03:31 م","المغرب":"06:54 م","العشاء":"08:24 م"},
+            {"يوم":"الإثنين","ميلادي":"09/06/2025","هجري":"13/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:01 ص","الشروق":"04:48 ص","الظهر":"11:55 ص","العصر":"03:31 م","المغرب":"06:54 م","العشاء":"08:24 م"},
+            {"يوم":"الثلاثاء","ميلادي":"10/06/2025","هجري":"14/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:01 ص","الشروق":"04:48 ص","الظهر":"11:55 ص","العصر":"03:32 م","المغرب":"06:55 م","العشاء":"08:25 م"},
+            {"يوم":"الأربعاء","ميلادي":"11/06/2025","هجري":"15/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:00 ص","الشروق":"04:48 ص","الظهر":"11:55 ص","العصر":"03:32 م","المغرب":"06:55 م","العشاء":"08:25 م"},
+            {"يوم":"الخميس","ميلادي":"12/06/2025","هجري":"16/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:00 ص","الشروق":"04:48 ص","الظهر":"11:56 ص","العصر":"03:32 م","المغرب":"06:56 م","العشاء":"08:26 م"},
+            {"يوم":"الجمعة","ميلادي":"13/06/2025","هجري":"17/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:00 ص","الشروق":"04:48 ص","الظهر":"11:56 ص","العصر":"03:32 م","المغرب":"06:56 م","العشاء":"08:26 م"},
+            {"يوم":"السبت","ميلادي":"14/06/2025","هجري":"18/12/1446 (ذُو ٱلْحِجَّة)","الفجر":"03:00 ص","الشروق":"04:48 ص","الظهر":"11:56 ص","العصر":"03:32 م","المغرب":"06:56 م","العشاء":"08:27 م"}
+        ];
+
+        // متغيرات عامة
+        let currentPrayerTimes = {};
+        let lastPlayedAdhan = null;
+        let originalVolume = 0.3;
+        let adhanAudios = {};
+        let nextPrayerInterval = null;
+
+        // أسماء الصلوات وأيقوناتها
+        const prayerInfo = {
+            'الفجر': { name: 'fajr', icon: '🌅' },
+            'الظهر': { name: 'dhuhr', icon: '☀️' },
+            'العصر': { name: 'asr', icon: '🌤️' },
+            'المغرب': { name: 'maghrib', icon: '🌇' },
+            'العشاء': { name: 'isha', icon: '🌙' }
+        };
+
+        // أيام الأسبوع بالعربية
+        const arabicDays = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+        const arabicMonths = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+
+        // إنشاء الجسيمات المتحركة
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = Math.random() * 3 + 1 + 'px';
+                particle.style.animationDuration = Math.random() * 10 + 10 + 's';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // تحويل الوقت من تنسيق 12 ساعة إلى 24 ساعة
+        function convertTo24Hour(time12h) {
+            const [time, modifier] = time12h.split(' ');
+            let [hours, minutes] = time.split(':');
+            hours = parseInt(hours);
+            
+            if (modifier === 'ص' && hours === 12) {
+                hours = 0;
+            } else if (modifier === 'م' && hours !== 12) {
+                hours += 12;
+            }
+            
+            return `${hours.toString().padStart(2, '0')}:${minutes}`;
+        }
+
+        // الحصول على أوقات الصلاة لليوم الحالي
+        function getTodayPrayerTimes() {
+            try {
+                const today = new Date();
+                const todayFormatted = today.toLocaleDateString('en-GB').replace(/\//g, '/');
+                
+                const todayData = prayerData.find(day => {
+                    const dayDate = day['ميلادي'];
+                    return dayDate === todayFormatted;
+                });
+
+                if (!todayData) {
+                    console.warn('لم يتم العثور على بيانات اليوم، استخدام البيانات الأولى');
+                    return prayerData[0];
+                }
+
+                return todayData;
+            } catch (error) {
+                console.error('خطأ في الحصول على أوقات الصلاة:', error);
+                return prayerData[0];
+            }
+        }
+
+        // تحديث الساعة الرقمية
+        function updateDigitalClock() {
+            const now = new Date();
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            // تحويل إلى نظام 12 ساعة
+            const period = hours >= 12 ? 'م' : 'ص';
+            hours = hours % 12;
+            hours = hours ? hours : 12; // الساعة 0 تصبح 12
+            
+            const timeString = `${hours.toString().padStart(2, '0')}:${minutes}:${seconds} ${period}`;
+            
+            const clockElement = document.getElementById('digital-clock');
+            clockElement.textContent = timeString;
+            clockElement.setAttribute('data-time', timeString);
+            
+            // تحديث التاريخ
+            const dayName = arabicDays[now.getDay()];
+            const day = now.getDate();
+            const month = arabicMonths[now.getMonth()];
+            const year = now.getFullYear();
+            document.getElementById('clock-date').textContent = `${dayName}، ${day} ${month} ${year}`;
+        }
+
+        // حساب الوقت المتبقي
+        function getTimeRemaining(prayerTime) {
+            const now = new Date();
+            const [hours, minutes] = prayerTime.split(':');
+            const prayerDate = new Date();
+            prayerDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+            
+            if (prayerDate < now) {
+                prayerDate.setDate(prayerDate.getDate() + 1);
+            }
+            
+            const diff = prayerDate - now;
+            const hoursRemaining = Math.floor(diff / 3600000);
+            const minutesRemaining = Math.floor((diff % 3600000) / 60000);
+            const secondsRemaining = Math.floor((diff % 60000) / 1000);
+            
+            if (hoursRemaining > 0) {
+                return `${hoursRemaining} ساعة ${minutesRemaining} دقيقة`;
+            } else if (minutesRemaining > 0) {
+                return `${minutesRemaining} دقيقة ${secondsRemaining} ثانية`;
+            } else if (secondsRemaining > 0) {
+                return `${secondsRemaining} ثانية`;
+            } else {
+                return 'حان الوقت';
+            }
+        }
+
+        // الحصول على الصلاة التالية
+        function getNextPrayer() {
+            const now = new Date();
+            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            const prayers = ['الفجر', 'الظهر', 'العصر', 'المغرب', 'العشاء'];
+            
+            for (let prayer of prayers) {
+                const prayerTime12h = currentPrayerTimes[prayer];
+                if (!prayerTime12h) continue;
+                
+                const prayerTime24h = convertTo24Hour(prayerTime12h);
+                if (prayerTime24h > currentTime) {
+                    return { name: prayer, time: prayerTime24h };
+                }
+            }
+            
+            // إذا لم توجد صلاة اليوم، الصلاة التالية هي فجر الغد
+            return { name: 'الفجر', time: convertTo24Hour(currentPrayerTimes['الفجر']) };
+        }
+
+        // تحديث العد التنازلي للصلاة التالية
+        function updateNextPrayerCountdown() {
+            const nextPrayer = getNextPrayer();
+            document.getElementById('next-prayer-name').textContent = nextPrayer.name;
+            
+            const now = new Date();
+            const [hours, minutes] = nextPrayer.time.split(':');
+            const prayerDate = new Date();
+            prayerDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+            
+            if (prayerDate < now) {
+                prayerDate.setDate(prayerDate.getDate() + 1);
+            }
+            
+            const diff = prayerDate - now;
+            const hoursRemaining = Math.floor(diff / 3600000);
+            const minutesRemaining = Math.floor((diff % 3600000) / 60000);
+            const secondsRemaining = Math.floor((diff % 60000) / 1000);
+            
+            // تحويل الساعات إلى نظام 12 ساعة للعرض
+            let displayHours = hoursRemaining;
+            
+            const countdown = `${displayHours.toString().padStart(2, '0')}:${minutesRemaining.toString().padStart(2, '0')}:${secondsRemaining.toString().padStart(2, '0')}`;
+            document.getElementById('next-prayer-countdown').textContent = countdown;
+        }
+
+        // عرض أوقات الصلاة
+        function displayPrayerTimes() {
+            try {
+                const todayData = getTodayPrayerTimes();
+                if (!todayData) {
+                    console.error('لم يتم العثور على بيانات اليوم');
+                    showSystemMessage('جاري تحميل البيانات...');
+                    return;
+                }
+                
+                currentPrayerTimes = todayData;
+                
+                // تحديث التاريخ الميلادي
+                const gregorianDate = todayData['ميلادي'];
+                const [day, month, year] = gregorianDate.split('/');
+                document.getElementById('gregorian-date').textContent = `${year}-${month}-${day}`;
+                
+                // تحديث التاريخ الهجري
+                const hijriText = todayData['هجري'];
+                const hijriMatch = hijriText.match(/(\d+)\/(\d+)\/(\d+)/);
+                if (hijriMatch) {
+                    const [_, hijriDay, hijriMonth, hijriYear] = hijriMatch;
+                    document.getElementById('hijri-date').textContent = `${hijriYear}-${hijriMonth.padStart(2, '0')}-${hijriDay.padStart(2, '0')}`;
+                }
+                
+                // عرض أوقات الصلاة
+                const prayerGrid = document.getElementById('prayer-grid');
+                if (!prayerGrid) {
+                    console.error('لم يتم العثور على عنصر prayer-grid');
+                    return;
+                }
+                
+                prayerGrid.innerHTML = '';
+                
+                const prayers = ['الفجر', 'الظهر', 'العصر', 'المغرب', 'العشاء'];
+                const now = new Date();
+                const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+                
+                prayers.forEach((prayer, index) => {
+                    const prayerTime12h = todayData[prayer];
+                    if (!prayerTime12h) {
+                        console.error(`لم يتم العثور على وقت صلاة ${prayer}`);
+                        return;
+                    }
+                    
+                    const prayerTime24h = convertTo24Hour(prayerTime12h);
+                    const timeRemaining = getTimeRemaining(prayerTime24h);
+                    
+                    const card = document.createElement('div');
+                    card.className = 'prayer-card';
+                    
+                    // تحديد الصلاة الحالية
+                    if (isCurrentPrayer(prayer, prayerTime24h)) {
+                        card.classList.add('active');
+                    }
+                    
+                    // إضافة تأخير في الأنيميشن
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    
+                    card.innerHTML = `
+                        <div class="prayer-icon">${prayerInfo[prayer].icon}</div>
+                        <div class="prayer-name">${prayer}</div>
+                        <div class="prayer-time">${prayerTime12h}</div>
+                        <div class="time-remaining">${timeRemaining}</div>
+                    `;
+                    
+                    prayerGrid.appendChild(card);
+                });
+
+                // تحديث الصلاة التالية
+                updateNextPrayerCountdown();
+                
+            } catch (error) {
+                console.error('خطأ في عرض أوقات الصلاة:', error);
+                showSystemMessage('حدث خطأ في عرض الأوقات، جاري إعادة المحاولة...');
+                setTimeout(displayPrayerTimes, 5000);
+            }
+        }
+
+        // التحقق من الصلاة الحالية
+        function isCurrentPrayer(prayerName, prayerTime) {
+            const now = new Date();
+            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            const [hours, minutes] = prayerTime.split(':');
+            const prayerDate = new Date();
+            prayerDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+            
+            const endTime = new Date(prayerDate);
+            endTime.setMinutes(endTime.getMinutes() + 30);
+            
+            return now >= prayerDate && now <= endTime;
+        }
+
+        // تشغيل الأذان
+        function playAdhan(prayerName) {
+            const adhanOverlay = document.getElementById('adhan-overlay');
+            const currentPrayerNameEl = document.getElementById('current-prayer-name');
+            const adhanAudio = document.getElementById('adhan-audio');
+            const progressBar = document.getElementById('adhan-progress');
+            
+            // عرض نافذة الأذان
+            adhanOverlay.style.display = 'flex';
+            currentPrayerNameEl.textContent = `صلاة ${prayerName}`;
+            progressBar.style.width = '0%';
+            
+            // تشغيل صوت الأذان
+            const audioFile = `adhan/${prayerInfo[prayerName].name}.mp3`;
+            adhanAudio.src = audioFile;
+            adhanAudio.volume = 0.55;
+            
+            // محاولة تشغيل الصوت
+            const playPromise = adhanAudio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        console.log('تم تشغيل الأذان بنجاح');
+                        // تحديث شريط التقدم
+                        adhanAudio.addEventListener('timeupdate', function() {
+                            const progress = (adhanAudio.currentTime / adhanAudio.duration) * 100;
+                            progressBar.style.width = progress + '%';
+                        });
+                    })
+                    .catch(error => {
+                        console.error('خطأ في تشغيل الأذان:', error);
+                        setTimeout(() => {
+                            adhanAudio.play().catch(e => {
+                                showSystemMessage('تعذر تشغيل الأذان. يرجى السماح بتشغيل الأصوات.');
+                                setTimeout(() => {
+                                    adhanOverlay.style.display = 'none';
+                                }, 3000);
+                            });
+                        }, 1000);
+                    });
+            }
+            
+            // إخفاء نافذة الأذان بعد انتهاء الصوت
+            adhanAudio.onended = function() {
+                setTimeout(() => {
+                    adhanOverlay.style.display = 'none';
+                    adhanAudio.volume = originalVolume;
+                    showSystemMessage(`انتهى أذان ${prayerName}`);
+                }, 1000);
+            };
+            
+            // معالجة أخطاء تحميل الملف
+            adhanAudio.onerror = function() {
+                console.error('خطأ في تحميل ملف الأذان:', audioFile);
+                showSystemMessage('تعذر تحميل ملف الأذان');
+                setTimeout(() => {
+                    adhanOverlay.style.display = 'none';
+                }, 3000);
+            };
+            
+            lastPlayedAdhan = `${prayerName}-${new Date().toDateString()}`;
+        }
+
+        // فحص أوقات الصلاة
+        function checkPrayerTimes() {
+            const now = new Date();
+            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            const currentSeconds = now.getSeconds();
+            
+            const prayers = ['الفجر', 'الظهر', 'العصر', 'المغرب', 'العشاء'];
+            
+            prayers.forEach(prayer => {
+                const prayerTime12h = currentPrayerTimes[prayer];
+                if (!prayerTime12h) return;
+                
+                const prayerTime24h = convertTo24Hour(prayerTime12h);
+                
+                if (currentTime === prayerTime24h && currentSeconds < 2) {
+                    const todayAdhanKey = `${prayer}-${new Date().toDateString()}`;
+                    
+                    if (lastPlayedAdhan !== todayAdhanKey) {
+                        playAdhan(prayer);
+                        showSystemMessage(`حان وقت صلاة ${prayer}`);
+                    }
+                }
+            });
+        }
+
+        // عرض رسالة النظام
+        function showSystemMessage(message, duration = 5000) {
+            const messageEl = document.getElementById('system-message');
+            
+            // إزالة الرسالة السابقة إن وجدت
+            if (messageEl.style.display === 'block') {
+                messageEl.style.display = 'none';
+                void messageEl.offsetWidth; // إعادة تشغيل الأنيميشن
+            }
+            
+            messageEl.textContent = message;
+            messageEl.style.display = 'block';
+            
+            setTimeout(() => {
+                messageEl.style.display = 'none';
+            }, duration);
+        }
+
+        // تنظيف البيانات المؤقتة
+        function cleanupTemporaryData() {
+            console.log('تنظيف البيانات المؤقتة...');
+            displayPrayerTimes();
+            showSystemMessage('تم تحديث البيانات');
+        }
+
+        // تحسين أداء التطبيق
+        function optimizeAppPerformance() {
+            // تخزين البيانات في الذاكرة المؤقتة
+            if ('caches' in window) {
+                caches.open('prayer-times-cache').then(cache => {
+                    cache.add('/');
+                    cache.add('/index.html');
+                    // تخزين ملفات الأذان
+                    Object.values(prayerInfo).forEach(prayer => {
+                        cache.add(`adhan/${prayer.name}.mp3`);
+                    });
+                });
+            }
+
+            // تحسين أداء التحديثات
+            let lastUpdate = Date.now();
+            const updateInterval = 1000; // تحديث كل ثانية
+
+            function performTimedUpdates() {
+                const now = Date.now();
+                if (now - lastUpdate >= updateInterval) {
+            updateDigitalClock();
+            updateNextPrayerCountdown();
+                    checkPrayerTimes();
+                    lastUpdate = now;
+                }
+                requestAnimationFrame(performTimedUpdates);
+            }
+
+            performTimedUpdates();
+        }
+
+        // تحسين عرض التواريخ
+        function formatDate(date, type = 'gregorian') {
+            if (type === 'gregorian') {
+                const day = date.getDate().toString().padStart(2, '0');
+                const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                const year = date.getFullYear();
+                return `${year}-${month}-${day}`;
+            }
+            return date;
+        }
+
+        // تحسين البحث عن أوقات الصلاة
+        function findPrayerTimes(date) {
+            const formattedDate = formatDate(date);
+            const [year, month, day] = formattedDate.split('-');
+            const searchDate = `${day}/${month}/${year}`;
+            
+            return prayerData.find(data => data['ميلادي'] === searchDate) || prayerData[0];
+        }
+
+        // إضافة دعم للتنبيهات
+        function setupNotifications() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showSystemMessage('تم تفعيل التنبيهات');
+                    }
+                });
+            }
+        }
+
+        // تحسين وظيفة تهيئة التطبيق
+        function initializeApp() {
+            try {
+                // التهيئة الأساسية
+                createParticles();
+                
+                // عرض أوقات الصلاة فوراً
+                displayPrayerTimes();
+                
+                // تحسين الأداء
+                optimizeAppPerformance();
+                
+                // إعداد التنبيهات
+                setupNotifications();
+                
+                // تهيئة الأصوات
+                setupAudio();
+                
+                // عرض رسالة الترحيب
+                showSystemMessage('مرحباً بك في نظام أوقات الصلاة المتطور');
+                
+                // تحديث دوري للبيانات
+                setInterval(displayPrayerTimes, 60000); // تحديث كل دقيقة
+                
+            } catch (error) {
+                console.error('خطأ في تهيئة التطبيق:', error);
+                showSystemMessage('حدث خطأ في تهيئة التطبيق، جاري إعادة المحاولة...');
+                setTimeout(initializeApp, 5000);
+            }
+        }
+
+        // تحسين تهيئة الأصوات
+        function setupAudio() {
+            // تهيئة تشغيل الأصوات التلقائي
+            document.addEventListener('click', function initAudio() {
+                const silentAudio = new Audio();
+                silentAudio.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZURE';
+                silentAudio.play().then(() => {
+                    console.log('تم تهيئة تشغيل الأصوات');
+                    document.removeEventListener('click', initAudio);
+                }).catch(() => {
+                    console.log('في انتظار تفاعل المستخدم');
+                });
+            });
+            
+            // تحميل ملفات الأذان مسبقاً
+            Object.entries(prayerInfo).forEach(([prayer, info]) => {
+                const audio = new Audio();
+                audio.src = `adhan/${info.name}.mp3`;
+                audio.preload = 'auto';
+                adhanAudios[prayer] = audio;
+            });
+        }
+
+        // بدء التطبيق عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', initializeApp);
+
+        // تحسين معالجة الأخطاء
+        window.addEventListener('error', (event) => {
+            console.error('خطأ في التطبيق:', event.error);
+            showSystemMessage('حدث خطأ، سيتم إعادة المحاولة...', 3000);
+            
+            // محاولة إصلاح الخطأ
+            try {
+                if (event.error instanceof TypeError) {
+                    // إعادة تهيئة المتغيرات الأساسية
+                    currentPrayerTimes = findPrayerTimes(new Date());
+                    displayPrayerTimes();
+                } else {
+                    // إعادة تحميل الصفحة في حالة الأخطاء الأخرى
+            setTimeout(() => {
+                location.reload();
+            }, 5000);
+                }
+            } catch (e) {
+                console.error('فشل في إصلاح الخطأ:', e);
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
